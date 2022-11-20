@@ -346,9 +346,9 @@ $('input.custom-range, .che, .checkboxes, #hosting').bind('change ',function re(
     $('input[name="sum3"]').val(Math.ceil(log2)+ ' ₽');
 });
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-})
+// $(function () {
+//   $('[data-toggle="tooltip"]').tooltip();
+// })
 
 // range
   $(".js-range-slider").ionRangeSlider({

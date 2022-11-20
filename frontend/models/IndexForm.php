@@ -12,6 +12,7 @@ class IndexForm extends Model
 {
     public $name;
     public $phone;
+    public $position;
     //public $enableClientScript = true;
 
 
@@ -23,6 +24,9 @@ class IndexForm extends Model
         return [
             // name, email, subject and body are required
             [['name', 'phone'], 'required'],
+            ['position', 'safe'],
+            ['name', 'match', 'pattern' => '/^[а-яА-ЯёЁ\s]+$/u', 'message' => 'Используйте русские буквы'],
+            ['phone', 'match', 'pattern' => '/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/', 'message' => 'Введите существующий номер'],
 
 
         ];

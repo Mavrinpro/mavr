@@ -202,14 +202,14 @@ $this->title = 'Шредирование и полное уничтожение 
                 <h2 class="display-4" id="price">Цены</h2>
                 <p>Стоимость разработки проектов всегда индивидуальна и зависит от множества факторов. Например начальная стоимость сайта под ключ с доменом и хостингом - от 20 000 ₽. Для уточнения цены свяжитесь со мной через этот сайт.</p>
                 <div class="text-md-right text-sm-right text-center">
-                    <button class="btn btn-outline-warning btn-lg mt-2 btn-pos btn_calk" data-toggle="collapse" data-target="#collapseprice" role="button" aria-expanded="false" aria-controls="collapseprice" data-text-alt="Свернуть"> Рассчитать стоимость<span class="ink animated"></span></button>
+                    <a class="btn btn-outline-warning btn-lg mt-2 btn-pos btn_calk" data-toggle="collapse" href="#collapseprice" role="button"  data-text-alt="Свернуть"> Рассчитать стоимость<span class="ink animated"></span></a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="calc collapse" id="collapseprice">
-    <div class="container">
+<section class="calc " >
+    <div class="container collapse" id="collapseprice">
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="display-4" id="price">Калькулятор проекта</h2>
