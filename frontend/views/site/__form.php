@@ -2,65 +2,73 @@
 /** @var yii\web\View $this */
 /** @var yii\bootstrap4\ActiveForm $form */
 
-/** @var \frontend\models\IndexForm $model */
+/** @var frontend\models\IndexForm $model */
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use frontend\models\IndexForm;
 use yii\widgets\MaskedInput;
+use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 
 ?>
+
 <?php $form = ActiveForm::begin([
-    'id' => 'contact',
+    'id' => 'form',
     'validateOnBlur' => true,
     'enableClientValidation' => true,
-    'errorCssClass' => 'error',
-    'fieldConfig' => [
-        'errorOptions' => [
-            'encode' => true,
-            'class' => 'help-block',
+    'enableClientScript' => true,
 
-        ],
-    ],
-
-    'options' => [
-        'class' =>'form mt-5',
-
-
-    ],
 
 ]); ?>
-<p class="title text-center">Оставить заявку на консультацию</p>
-<div class="d-flex justify-content-center flex-column flex-md-row">
-    <div class="form-group mr-md-3">
+<div class="form-group">
+    <small class="mt-1">Ваше имя</small>
+    <?=
+    $form->field($model, 'name')->textInput(['class' => 'form-control br-50', 'placeholder' => 'Имя', ])->label(false) ?>
+    <div class="text-danger"></div>
+    <small class="mt-1">Ваш номер</small>
+    <?= $form->field($model, 'phone')->textInput(['class' => 'form-control br-50'])->label(false) ?>
+    <div class="text-danger"></div>
+    <!-- <small class="mt-1">Ваше сообщение</small>
+    <textarea class="form-control" name="text" id="txt"></textarea> -->
 
-        <?= $form->field($model, 'name', ['errorOptions' => ['tag' => 'div', 'class' => 'text-danger']])->textInput(['class' => 'form-control br-50 p-4', 'placeholder' => 'Имя', ])->label(false) ?>
-    </div>
-    <div class="form-group mr-md-3">
-        <?= $form->field($model, 'phone', ['errorOptions' => ['tag' => 'div', 'class' => 'text-danger']])->widget(MaskedInput::class,['mask' => '+7(999)-999-99-99'])->textInput(['class' => 'form-control br-50 p-4'])->label(false) ?>
-    </div>
+    <small class="text-muted text-center mt-4 d-block mb-1"><i class="fa fa-lock"></i><img src="img/icons/shield.svg" width="16"> Ваши данные надежно защищены</small>
 
-    <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-lg bg_dark_blue text-light br-50 btn-block', 'name' => 'contact-button']) ?>
-    </div>
+    <?= Html::submitButton('Отправить', ['class' => 'btn btn-warning w-100 submit', 'name' => 'contact-button']) ?>
+    <div id="result"></div>
+</div>
+<?php ActiveForm::end();
 
-    <?php ActiveForm::end(); ?>
-<!--<form class="form mt-5" id="recl2903" method="POST" >-->
-<!--    <p class="title text-center">Оставить заявку на консультацию</p>-->
-<!--    <div class="d-flex justify-content-center flex-column flex-md-row">-->
-<!--        <div class="form-group mr-md-3">-->
-<!--            <input type="text" placeholder="Ваше имя" name="name" class="form-control br-50 p-4">-->
-<!--        </div>-->
-<!--        <div class="form-group mr-md-3">-->
-<!--            <input placeholder="Номер телефона/email" name="contact" class="form-control br-50 p-4">-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--            <input type="button" class="btn btn-lg btn-primary br-50 btn-block" onclick="call('recl2903')" value="Отправить">-->
-<!--        </div>-->
-<!--        <input type="hidden" name="recaptcha_response" id="recaptchaResponse2903"-->
-<!--               value="03AIIukzjrgyG8aoQwMpVRVGD3ICYsSELMgIRjMzG4paxzrLzWYJMcG6SaDVNG9m92J7jyszEWz0UrLTQQuAc5oST8VymzZx9Q3VNbcysMmb8wqeLJ1u39j_pAP3c3PFYp4byj_RxTALqghgSo1eBe4dga7VR1mKwxgAufViz9v3VkLDlozGd8cPCCQ8TGEHCoKTjdGlidSo-todY6FqFa61RthZnBDqLxbLTnOj_ToecgNRCm9d5TPjezS7oFZN1kwDCl4UjRbOrIo6T8RZa25fiQ2JkoGWlHcI-DIm3x04dHgsMHwQQcHjn-oIZPi1ylAt9B_Dc8gPzeLdt0FapfjUHH_WxNmt0w6L5VTmnhcS-p6GFeK_qKe9bMgmvVZ1x7AW7i9eUql0amdSi4ECccaQyNxx79mAC_QUIkChhSFhRGIst-Fl5ZicY1j33pvSR9uDsI4VhNMm122XW2iRbkU3FGVwx1Ux5pQ1bzb8KDvZUKTm_qbjJGHb0FqDTKCWuQFNlwqJhmDKU4">-->
-<!--        <input type="hidden" name="wintype" value="aftertext">-->
-<!--    </div>-->
-<!--    <div id="recl2903res"></div>-->
-<!--</form>-->
+
+$js = <<<JS
+
+var form = $('#form');
+form.on('beforeSubmit', function (e){
+    var btn_send = $('.submit');
+    var data = form.serialize();
+    $.ajax({
+    url: form.attr('action'),
+    type: 'POST',
+    data: data,
+    beforeSend: (function(){
+            $('.submit').addClass('progress-bar progress-bar-striped progress-bar-animated bg-warning');
+        }),
+    success: function (res){
+        console.log(res);
+         btn_send.removeClass('progress-bar progress-bar-striped progress-bar-animated');
+        setTimeout(function (){
+            form.trigger('reset');
+        },3000)
+        
+    },
+    error: function (){
+        alert('error');
+    }
+    });
+    return false;
+});
+
+
+JS;
+$this->registerJs($js);
+?>

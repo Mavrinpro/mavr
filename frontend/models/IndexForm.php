@@ -12,6 +12,7 @@ class IndexForm extends Model
 {
     public $name;
     public $phone;
+    //public $enableClientScript = true;
 
 
     /**

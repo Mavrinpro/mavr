@@ -1,0 +1,30 @@
+@font-face{font-family:Kashima;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/19192.ttf) format('opentype')}
+section.head{background:url(https://serblog.ru/photo1/img/code.jpg),#000;background-repeat:no-repeat;background-size:auto;color:#fff;min-height:100vh;background-position:right;background-attachment:fixed;background-position:initial}
+.inherit-height{min-height:inherit}
+.btn-pos{position:relative;overflow:hidden}
+.ink.animated{opacity:1}
+.ink{display:block;position:absolute;background:#ffc107;border-radius:100%;-webkit-transform:scale(0);-moz-transform:scale(0);-o-transform:scale(0);transform:scale(0);z-index:20;height:280px;width:280px;top:-5px;left:-92px;filter:blur(1.5px);-webkit-filter:blur(1.5px)}
+.animated{-webkit-animation:ripple 2.5s linear;-moz-animation:ripple 2.5s linear;-ms-animation:ripple 2.5s linear;-o-animation:ripple 2.5s linear;animation:ripple 2.5s linear;animation-iteration-count:infinite}
+@-webkit-keyframes ripple{
+100%{opacity:0;-webkit-transform:scale(2)}
+}
+@-moz-keyframes ripple{
+100%{opacity:0;-moz-transform:scale(2)}
+}
+@keyframes ripple{
+100%{opacity:0;transform:scale(2)}
+}
+section.usl{background:linear-gradient(180deg,#000a44,#000);color:#fff}
+.thumb{padding:5px}
+.thumb img{-webkit-filter:grayscale(0);filter:none}
+.thumb img:hover{-webkit-filter:grayscale(1);filter:grayscale(1)}
+.thumb{padding:5px}
+footer{background:#333;color:#fff}
+section.head>section{background:linear-gradient(45deg,#000,rgba(0,0,0,.48));min-height:inherit}
+.btn{border-radius:50px}
+@media(max-width:353px){
+.display-1{font-size:5.4rem}
+}
+section.about{min-height:50vh}
+button.close{margin-right:5px}
+section.about:nth-of-type(odd){background:#680700;color:#eee}

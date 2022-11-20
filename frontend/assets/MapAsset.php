@@ -21,7 +21,7 @@ class MapAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap4\BootstrapAsset',
-        'yii\bootstrap4\BootstrapAsset',
+        //'yii\bootstrap4\BootstrapAsset',
+        //'yii\bootstrap4\BootstrapAsset',
     ];
 }

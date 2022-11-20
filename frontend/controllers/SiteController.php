@@ -2,22 +2,21 @@
 
 namespace frontend\controllers;
 
-use frontend\models\IndexForm;
-use frontend\models\ResendVerificationEmailForm;
-use frontend\models\VerifyEmailForm;
-use Yii;
-use yii\base\InvalidArgumentException;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
+use frontend\models\IndexForm;
 use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use yii\swiftmailer;
-use yii\widgets\Pjax;
+use frontend\models\VerifyEmailForm;
+use yii\bootstrap4\ActiveForm;
+use yii\web\Response;
+use Yii;
+use yii\base\InvalidArgumentException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
 
 
 /**
@@ -25,7 +24,8 @@ use yii\widgets\Pjax;
  */
 class SiteController extends Controller
 {
-    public $layout = 'bootstrap';
+    public $layout = 'mavr';
+
     /**
      * {@inheritdoc}
      */
@@ -80,17 +80,43 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        Yii::$app->mailer->compose()
+        //       Yii::$app->mailer->compose()
 //            ->setFrom('blourator@yandex.ru')
 //            ->setTo('mavrin79@mail.ru')
 //            ->setSubject('Тестинг сообщений5555555555555555')
 //            ->setTextBody('body')
 //            ->send();
-$model = new IndexForm();
+
         $this->view->registerMetaTag(
             ['name' => 'description', 'content' => 'Уничтожение документов проводиться опытными архивистами мы приступаем к работе на следующий день после заключения договора. Процесс утилизации 1 тонны бумаг занимает 10 минут']
         );
-        return $this->render('index',[
+        $model = new IndexForm();
+        $arr = [];
+
+//        if($model->load(\Yii::$app->request->post())){
+//
+        $arr = [
+            'name' => $_POST['name'],
+            'phone' => $_POST['phone'],
+        ];
+//
+//           file_put_contents('text.txt', json_encode($arr));
+//            return $this->refresh();
+//
+//        }
+
+            if ($model->load(\Yii::$app->request->post()) && Yii::$app->request->isAjax){
+                Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+                if ($model->validate()){
+            file_put_contents('text.txt', json_encode($model));
+                    return ['message' => 'OK'];
+                }else{
+                    return ActiveForm::validate($model);
+                }
+            }
+            //return ActiveForm::validate($model);
+
+        return $this->render('index', [
             'model' => $model
         ]);
     }
@@ -235,8 +261,8 @@ $model = new IndexForm();
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
