@@ -11,7 +11,8 @@ use yii\widgets\MaskedInput;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 
-?>
+
+\frontend\assets\YandexAsset::register($this)?>
 <?php Pjax::begin(); ?>
 <?php $form = ActiveForm::begin([
     'id' => 'form',
@@ -35,6 +36,14 @@ use yii\widgets\Pjax;
         ]
     ]])->textInput(['class' => 'form-control br-50', 'placeholder' => 'Номер телефона', ])->label(false) ?>
     <?= $form->field($model, 'position')->hiddenInput(['value' => 'modal'])->label(false) ?>
+    <?= $form->field($model, 'country')->hiddenInput(['value' => '', 'class' => 'p1'])->label(false) ?>
+    <?= $form->field($model, 'region', [
+        'template' => '{input}', // Leave only input (remove label, error and hint)
+        'options' => [
+            'tag' => false, // Don't wrap with "form-group" div
+        ],
+    ])->hiddenInput(['value' => '', 'class' => 'p2'])->label(false) ?>
+    <?= $form->field($model, 'city')->hiddenInput(['value' => '', 'class' => 'p3', 'unselect' => null])->label(false) ?>
     <div class="text-danger"></div>
     <!-- <small class="mt-1">Ваше сообщение</small>
     <textarea class="form-control" name="text" id="txt"></textarea> -->
@@ -44,6 +53,9 @@ use yii\widgets\Pjax;
     <?= Html::submitButton('Отправить', ['class' => 'btn btn-warning w-100 submit', 'name' => 'contact-button']) ?>
     <div id="result"></div>
 </div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p3"></div>
 <?php ActiveForm::end();
 Pjax::end();
 
@@ -77,7 +89,12 @@ form.on('beforeSubmit', function (){
     return false;
 });
 
-
+ymaps.ready(function(){
+var geolocation = ymaps.geolocation;
+$('.p1').val(geolocation.country);
+$('.p2').val(geolocation.region);
+$('.p3').val(geolocation.city);
+});
 JS;
 $this->registerJs($js);
 ?>

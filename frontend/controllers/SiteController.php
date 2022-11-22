@@ -108,8 +108,8 @@ class SiteController extends Controller
             if ($model->load(\Yii::$app->request->post()) && Yii::$app->request->isAjax){
                 Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
                 if ($model->validate()){
-            file_put_contents('text.txt', json_encode($model));
-                    return ['message' => 'OK'];
+            file_put_contents('text.txt', json_encode($model, JSON_UNESCAPED_UNICODE));
+                    return ['message' => json_encode($model, JSON_UNESCAPED_UNICODE)];
                 }else{
                     return ActiveForm::validate($model);
                 }

@@ -253,12 +253,22 @@ Array.prototype.forEach.call(items, function(element) {
 // Change text on btn
 var i = 0;
 
+var btn_collapse = $('.btn[data-toggle="collapse"]');
+$('.btn[data-toggle="collapse"]').text('Рассчитать стоимость');
+var i = 1;
+btn_collapse.on('click', function(){
+    //btn_collapse.animate({maxWidth: "-=50px"});
+    if (i == 1){
 
-// $('.btn[data-toggle="collapse"]').on('click', function(){
-//     $(this).data('text-original', $(this).text())
-//         .text($(this).data('text-alt') )
-//         .data('text-alt', $(this).data('text-original'));
-// });
+        $(this).text('Свернуть');
+        i = 0;
+    }else{
+        $(this).text('Рассчитать стоимость');
+        i = 1;
+    }
+
+
+});
 
 // Calculator
 $('input#hosting').on('input', function(){
